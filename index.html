@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-950 text-gray-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shroomtop420® Service Catalog</title>
+  <meta name="description" content="370 monetizable Shroomtop420® services with pricing">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    ::selection{background:#10b981;color:#000}
+    .glass{background:rgba(255,255,255,.05);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1)}
+    .stripe-button {
+      background-color: #6772e5; /* Example Stripe button color */
+      color: white;
+      padding: 8px 15px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    .stripe-button:hover {
+      background-color: #5460c4;
+    }
+  </style>
+</head>
+<body class="p-6 font-mono space-y-10">
+  <header class="text-center">
+    <h1 class="text-4xl font-extrabold text-lime-400">Ξ Shroomtop420® Service Catalog</h1>
+    <p class="text-gray-400 text-sm mt-2">370 deploy‑ready offerings — priced & searchable</p>
+  </header>
+
+  <section class="max-w-6xl mx-auto">
+    <input id="search" type="text" placeholder="Search services…" class="w-full p-3 mb-4 rounded bg-gray-200 text-black placeholder-gray-600">
+    <ul id="catalog" class="space-y-2 text-sm leading-relaxed"></ul>
+  </section>
+
+  <footer class="text-center text-xs text-gray-500 border-t border-gray-700 pt-6">
+    © Shroomtop420® — built with Tailwind + ES6, ready for Termux or web.
+  </footer>
+
+  <script type="module">
+    /* ---- 370 concrete service lines, zero filler ---- */
+    // MODIFICATION: Change services to be an array of objects
+    // Each object should have 'name', 'originalIndex', and 'paymentLink'
+    // YOU WILL NEED TO POPULATE 'paymentLink' WITH YOUR ACTUAL STRIPE PAYMENT LINKS
+    const services = [
+      { name: "Build a branded GPT with promptmeta + LICENSE", originalIndex: 0, paymentLink: "YOUR_STRIPE_PAYMENT_LINK_FOR_SERVICE_1" },
+      { name: "Package GPTs as ZIPs for resale", originalIndex: 1, paymentLink: "YOUR_STRIPE_PAYMENT_LINK_FOR_SERVICE_2" },
+      { name: "License prompts with SHA256 validation", originalIndex: 2, paymentLink: "YOUR_STRIPE_PAYMENT_LINK_FOR_SERVICE_3" },
+      { name: "Build Stripe‑gated HTML+GPT dashboards", originalIndex: 3, paymentLink: "YOUR_STRIPE_PAYMENT_LINK_FOR_SERVICE_4" },
+      // ... and so on for all 370 services
+      // Example for service #100 (index 99)
+      // { name: "Build passive‑income prompt trackers", originalIndex: 99, paymentLink: "YOUR_STRIPE_PAYMENT_LINK_FOR_SERVICE_100" },
+      // Example for service #101 (index 100)
+      // { name: "Build a Termux clipboard sniffer for live logs", originalIndex: 100, paymentLink: "YOUR_STRIPE_PAYMENT_LINK_FOR_SERVICE_101" },
+      // ADD ALL YOUR SERVICES HERE IN THIS FORMAT
+    ];
+
+    // --- Helper to create the full list of services (simulating your full list) ---
+    // --- You should replace this with your actual service objects including payment links ---
+    const placeholderServiceNames = [
+      "Build a branded GPT with promptmeta + LICENSE", "Package GPTs as ZIPs for resale", "License prompts with SHA256 validation", "Build Stripe‑gated HTML+GPT dashboards", "Create Termux .shortcuts for automations", "Design AI journaling interfaces", "Create offline breathing trainers", "Build APK‑free Android widgets with scripts", "Auto‑generate YouTube Shorts with captions", "Make GPT‑driven idea‑to‑tweet tools", "Scaffold Flask apps for GPT overlays", "Create IndexedDB‑powered offline trackers", "Write Termux install scripts for clients", "Develop back‑tap triggered GPT agents", "Automate URL capture via termux‑url‑opener", "Build local‑only SEO keyword clusters", "Package Prompt‑as‑a‑Product bundles", "Create HTML + Tailwind system dashboards", "Generate AI art page templates", "Make GPT‑powered sales letter writers", "Deploy local voice‑controlled assistants", "Record audio → Whisper → summary bots", "Wrap Replit bots with monetized frontends", "Add monetization logic to existing GPTs", "Create offline‑friendly PWA prompt apps", "Build data‑viz UIs using Tailwind + Chart.js", "Develop prompt compression + token‑budget tools", "Package .shortcut + Flask command bridges", "Make GPT‑led writing exercises for authors", "Design AI agents for ecommerce copy", "Build mood‑based HTML/CSS switches", "Create back‑tap triggered Termux workflows", "Deploy Termux AI bootstrappers for devs", "Create 1‑click install .zip dashboards", "Auto‑scrape & clean web data via Termux", "Launch QR‑generated tools from browser only", "Build API key managers for GPT APIs", "Design adaptive UI themes by emotion", "Generate Stripe buy‑page clones", "Build GPTs for meal plans or fitness advice", // (Keep adding all 370 service names if you use this simulation)
+      // ... up to 370 services. For brevity, I'll stop here.
+      // IMPORTANT: This placeholder generation is just for this example.
+      // YOU NEED to define your 'services' array with actual names, originalIndex, and paymentLinks.
+    ];
+
+    // Simulate the full services array if you haven't manually typed all 370 above
+    // THIS IS A SIMPLIFICATION. YOU NEED TO PROVIDE THE ACTUAL PAYMENT LINKS.
+    const fullServices = placeholderServiceNames.slice(0, 370).map((name, index) => ({
+        name: name,
+        originalIndex: index,
+        // THIS IS A PLACEHOLDER - REPLACE WITH REAL LINKS
+        paymentLink: `YOUR_STRIPE_PAYMENT_LINK_FOR_SERVICE_${index + 1}`
+    }));
+    // If you manually defined all 370 services above with payment links, you can use that directly:
+    // const actualServices = services; // if you typed them all out
+    // Otherwise, for this example, we'll use the 'fullServices' generated above.
+    // Ensure you replace this logic with your actual data.
+    const servicesToUse = fullServices; // Or 'services' if you defined all 370 with links.
+
+
+    /* ---- pricing tiers ---- */
+    const getPrice = originalIdx => // Now takes originalIndex
+      originalIdx < 100 ? 99 :
+      originalIdx < 200 ? 149 :
+      originalIdx < 300 ? 199 : 249;
+
+    const ul = document.getElementById("catalog");
+    const q = document.getElementById("search");
+
+    const render = (f="")=>{
+      ul.innerHTML="";
+      servicesToUse // Use the potentially expanded list
+        .filter(o=>o.name.toLowerCase().includes(f.toLowerCase()))
+        .forEach(o=>{ // 'o' is now an object: { name, originalIndex, paymentLink }
+          const price=getPrice(o.originalIndex);
+          const li=document.createElement("li");
+          // MODIFICATION: Added a container for flex layout and the buy button
+          li.className="glass p-3 rounded flex justify-between items-center hover:bg-lime-900/30 transition";
+          li.innerHTML=`
+            <div class="flex-grow">
+              <span class="text-lime-400 font-semibold">#${o.originalIndex+1}</span> ${o.name}
+            </div>
+            <div class="flex items-center">
+              <span class="text-cyan-300 font-bold mr-4">$${price}</span>
+              <a href="${o.paymentLink}" target="_blank" class="stripe-button">Buy Now</a>
+            </div>`;
+          ul.appendChild(li);
+        });
+    };
+    q.addEventListener("input",e=>render(e.target.value));
+    render();
+  </script>
+</body>
+</html>
